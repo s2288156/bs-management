@@ -11,20 +11,18 @@
           <el-col :span="6">
             <div class="grid-content bg-transparent">
 
-              <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="99px"
-                       class="demo-loginForm">
+              <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
+                       class="demo-ruleForm">
                 <el-form-item label="用户名" prop="username">
-                  <el-input type="text" v-model="loginForm.username" autocomplete="on"></el-input>
+                  <el-input v-model="ruleForm.username" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="pass">
-                  <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
+                <el-form-item label="密码" prop="password">
+                  <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="年龄" prop="age">
-                  <el-input v-model.number="loginForm.age"></el-input>
-                </el-form-item>
+
                 <el-form-item>
-                  <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
-                  <el-button @click="resetForm('loginForm')">重置</el-button>
+                  <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                  <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
               </el-form>
 
@@ -46,57 +44,33 @@
 export default {
   name: 'Login',
   data() {
-    let checkAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('年龄不能为空'));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字值'));
-        } else {
-          if (value < 18) {
-            callback(new Error('必须年满18岁'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-    let validatePass = (rule, value, callback) => {
+    const validateUsername = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('请输入用户名'));
       } else {
-        if (this.loginForm.checkPass !== '') {
-          this.$refs.loginForm.validateField('checkPass');
-        }
         callback();
       }
     };
-    let validatePass2 = (rule, value, callback) => {
+    const validatePassword = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.loginForm.pass) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error('请输入密码'));
+      } else if (value.length < 1) {
+        callback(new Error('密码长度不能低于1位'));
       } else {
         callback();
       }
     };
     return {
-      loginForm: {
+      ruleForm: {
         username: '',
-        pass: '',
-        checkPass: '',
-        age: ''
+        password: '',
       },
       rules: {
-        pass: [
-          {validator: validatePass, trigger: 'blur'}
+        username: [
+          {validator: validateUsername, trigger: 'blur'}
         ],
-        checkPass: [
-          {validator: validatePass2, trigger: 'blur'}
-        ],
-        age: [
-          {validator: checkAge, trigger: 'blur'}
+        password: [
+          {validator: validatePassword, trigger: 'blur'}
         ]
       }
     };
@@ -105,7 +79,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          // const api = '/api/auth/login';
+          const api = "http://localhost:18000/auth/login";
+          const data = JSON.stringify(this.ruleForm);
+          console.log(data);
+          this.axios.post(api, data).then((response) => {
+            alert('submit');
+            alert(response.toString());
+          });
         } else {
           console.log('error submit!!');
           return false;
