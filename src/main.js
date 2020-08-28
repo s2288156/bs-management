@@ -10,6 +10,10 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 
+// axios.defaults.baseURL = 'http://localhost:18000/';
+axios.defaults.baseURL = '/api';
+
+
 new Vue({
   router,
   render: h => h(App)

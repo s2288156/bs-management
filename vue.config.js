@@ -1,14 +1,10 @@
 // const port = process.env.port || process.env.npm_config_port || 80 // 端口
 
-module.export = {
+module.exports = {
   devServer: {
-    host: 'localhost',
-    port: 8080,
-    assetsSubDirectory: "static",
-    assetsPublicPath: "/",
-    proxyTable: {
+    proxy: {
       "/api": {
-        target: "http://localhost:18000",
+        target: "https://www.baidu.com/",
         changeOrigin: true,
         pathRewrite: {
           "^/api": "/"
