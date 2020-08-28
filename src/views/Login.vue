@@ -79,17 +79,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const api = '/';
+          const api = 'auth/login';
           // const api = "http://localhost:18000/auth/login";
           const data = JSON.stringify(this.ruleForm);
           console.log(data);
-          this.axios.post(api, data, {
-            headers: {
-              'Access-Control-Allow-Origin': '*'
-            }
-          }).then((response) => {
-            alert('submit');
-            alert(response.toString());
+          this.axios.post(api, data).then((response) => {
+            alert(response.data.returnMsg);
+            console.log(response);
           });
         } else {
           console.log('error submit!!');

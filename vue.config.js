@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "https://www.baidu.com/",
+        target: "http://localhost:18000/",
         changeOrigin: true,
         pathRewrite: {
           "^/api": "/"
