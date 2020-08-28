@@ -88,7 +88,7 @@ export default {
               message: returnMsg,
               type: 'success'
             })
-
+            this.$router.push('foo');
           });
 
         } else {
