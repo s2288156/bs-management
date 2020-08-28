@@ -80,10 +80,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const api = 'auth/login';
-          // const api = "http://localhost:18000/auth/login";
-          const data = JSON.stringify(this.ruleForm);
-          console.log(data);
-          this.axios.post(api, data).then((response) => {
+          // let data = JSON.stringify(this.ruleForm);
+          let param = new URLSearchParams();
+          param.append('username', this.ruleForm.username);
+          param.append('password', this.ruleForm.password);
+          console.log(param);
+          this.axios.post(api, param).then((response) => {
             alert(response.data.returnMsg);
             console.log(response);
           });
