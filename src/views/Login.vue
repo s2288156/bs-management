@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import request from '@/util/request';
+import {login} from '@/api/auth/Authorication';
 
 export default {
   name: 'Login',
@@ -81,13 +81,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const api = 'auth/login';
 
-          request({
-            url: api,
-            method: 'post',
-            params: this.ruleForm
-          }).then((response) => {
+          login(this.ruleForm).then((response) => {
             alert(response.data.returnMsg);
             console.log(response);
           });
