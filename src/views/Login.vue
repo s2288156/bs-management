@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import request from '@/util/request';
+
 export default {
   name: 'Login',
   data() {
@@ -80,15 +82,16 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const api = 'auth/login';
-          // let data = JSON.stringify(this.ruleForm);
-          let param = new URLSearchParams();
-          param.append('username', this.ruleForm.username);
-          param.append('password', this.ruleForm.password);
-          console.log(param);
-          this.axios.post(api, param).then((response) => {
+
+          request({
+            url: api,
+            method: 'post',
+            params: this.ruleForm
+          }).then((response) => {
             alert(response.data.returnMsg);
             console.log(response);
           });
+
         } else {
           console.log('error submit!!');
           return false;
