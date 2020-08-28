@@ -83,8 +83,12 @@ export default {
         if (valid) {
 
           login(this.ruleForm).then((response) => {
-            alert(response.data.returnMsg);
-            console.log(response);
+            let returnMsg = response.returnMsg;
+            this.$message({
+              message: returnMsg,
+              type: 'success'
+            })
+
           });
 
         } else {
