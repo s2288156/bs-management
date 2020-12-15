@@ -66,9 +66,6 @@ export default {
       ruleForm: {
         username: '',
         password: '',
-        grant_type: 'password',
-        client_id: 'portal-app',
-        client_secret: '123456',
       },
       rules: {
         username: [

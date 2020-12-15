@@ -4,7 +4,7 @@ import {Message, Notification} from "element-ui";
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
 const service = axios.create({
-  baseURL: '/api',
+  // baseURL: '/api',
   timeout: 10000
 });
 
@@ -17,7 +17,7 @@ service.interceptors.response.use(res => {
   const returnCode = res.data.returnCode;
   const returnMsg = res.data.returnMsg;
 
-  if (code === 500) {
+  if (code === 500 || code === 400) {
     // 中央顶部错误信息
     Message({
       message: returnMsg,
