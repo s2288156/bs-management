@@ -64,8 +64,8 @@ export default {
     };
     return {
       ruleForm: {
-        username: '',
-        password: '',
+        username: 'laowang',
+        password: '123123',
       },
       rules: {
         username: [
@@ -86,7 +86,8 @@ export default {
             let returnMsg = response.returnMsg;
             this.$message({
               message: returnMsg,
-              type: 'success'
+              type: 'success',
+              duration: 3 * 1000
             })
             this.$router.push('foo');
           });

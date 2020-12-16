@@ -1,45 +1,42 @@
 import axios from 'axios';
-import {Message, Notification} from "element-ui";
-
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+import {Message} from "element-ui";
+import qs from 'qs'
 
 const service = axios.create({
-  // baseURL: '/api',
-  timeout: 10000
+  baseURL: '/',
+  timeout: 10000,
+  transformRequest: function (data) {
+    data = qs.stringify(data)
+    return data
+  }
 });
 
 // 后台接口业务成功
 const SUCCESS = '00000';
 
-service.interceptors.response.use(res => {
-  console.log(res);
-  const code = res.status || 200;
-  const returnCode = res.data.returnCode;
-  const returnMsg = res.data.returnMsg;
+service.interceptors.response.use(
+  res => {
+    const returnCode = res.data.returnCode;
+    const returnMsg = res.data.returnMsg;
 
-  if (code === 500 || code === 400) {
-    // 中央顶部错误信息
-    Message({
-      message: returnMsg,
-      type: 'error'
-    })
-    return Promise.reject(new Error(returnMsg))
-  } else if (code !== 200) {
-    // 右侧弹窗通知
-    Notification.error({
-      title: returnMsg
-    })
-    return Promise.reject('error')
-  } else {
-    if (returnCode === SUCCESS) {
-      return res.data;
+    if (returnCode !== SUCCESS) {
+      Message({
+        message: returnMsg,
+        type: 'error',
+        duration: 3 * 1000
+      });
+      return Promise.reject(new Error(returnMsg));
     }
+    return res.data;
+  },
+  error => {
+    console.log("onRejected >>" + error)
     Message({
-      message: returnMsg,
-      type: 'error'
+      message: error.message,
+      type: 'error',
+      duration: 3 * 1000
     })
-    return Promise.reject(new Error(returnMsg))
   }
-})
+)
 
 export default service
