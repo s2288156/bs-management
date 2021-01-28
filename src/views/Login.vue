@@ -2,18 +2,24 @@
   <div class="login-container">
     <el-row>
       <el-col :span="9">
-        <div class="grid-content bg-transparent"></div>
+        <div class="grid-content bg-transparent"/>
       </el-col>
       <el-col :span="6">
         <div class="grid-content bg-transparent">
 
-          <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
-                   class="demo-ruleForm">
+          <el-form
+              ref="ruleForm"
+              :model="ruleForm"
+              status-icon
+              :rules="rules"
+              label-width="100px"
+              class="demo-ruleForm"
+          >
             <el-form-item label="用户名" prop="username">
-              <el-input v-model="ruleForm.username" autocomplete="off"></el-input>
+              <el-input v-model="ruleForm.username" autocomplete="off"/>
             </el-form-item>
             <el-form-item label="密码" prop="password">
-              <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+              <el-input v-model="ruleForm.password" type="password" autocomplete="off"/>
             </el-form-item>
 
             <el-form-item>
@@ -25,38 +31,38 @@
         </div>
       </el-col>
       <el-col :span="9">
-        <div class="grid-content bg-transparent"></div>
+        <div class="grid-content bg-transparent"/>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import {login} from '@/api/auth/Authorication';
+import {login} from '@/api/auth/Authorication'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入用户名'));
+        callback(new Error('请输入用户名'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('请输入密码'))
       } else if (value.length < 1) {
-        callback(new Error('密码长度不能低于1位'));
+        callback(new Error('密码长度不能低于1位'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       ruleForm: {
         username: 'laowang',
-        password: '123123',
+        password: '123123'
       },
       rules: {
         username: [
@@ -66,31 +72,29 @@ export default {
           {validator: validatePassword, trigger: 'blur'}
         ]
       }
-    };
+    }
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
           login(this.ruleForm).then((response) => {
-            let returnMsg = response.returnMsg;
+            const returnMsg = response.returnMsg
             this.$message({
               message: returnMsg,
               type: 'success',
               duration: 3 * 1000
             })
-            this.$router.push('foo');
-          });
-
+            this.$router.push('foo')
+          })
         } else {
-          console.log('error submit!!');
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     }
   }
 
@@ -108,7 +112,6 @@ $light_gray: #eee;
   background-color: $bg;
   overflow: hidden;
 
-
   .bg-transparent {
     background: Transparent;
   }
@@ -118,6 +121,5 @@ $light_gray: #eee;
     min-height: 36px;
   }
 }
-
 
 </style>
