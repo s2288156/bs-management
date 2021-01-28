@@ -8,12 +8,12 @@
         <div class="grid-content bg-transparent">
 
           <el-form
-              ref="ruleForm"
-              :model="ruleForm"
-              status-icon
-              :rules="rules"
-              label-width="100px"
-              class="demo-ruleForm"
+            ref="ruleForm"
+            :model="ruleForm"
+            status-icon
+            :rules="rules"
+            label-width="100px"
+            class="demo-ruleForm"
           >
             <el-form-item label="用户名" prop="username">
               <el-input v-model="ruleForm.username" autocomplete="off"/>
