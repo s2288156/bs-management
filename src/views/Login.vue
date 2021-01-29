@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {login} from '@/api/auth/Authorication'
+import { login } from '@/api/auth/Authorication'
 
 export default {
   name: 'Login',
@@ -66,10 +66,10 @@ export default {
       },
       rules: {
         username: [
-          {validator: validateUsername, trigger: 'blur'}
+          { validator: validateUsername, trigger: 'blur' }
         ],
         password: [
-          {validator: validatePassword, trigger: 'blur'}
+          { validator: validatePassword, trigger: 'blur' }
         ]
       }
     }
