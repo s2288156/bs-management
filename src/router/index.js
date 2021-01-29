@@ -4,7 +4,7 @@ import Layout from '@/layout'
 
 Vue.use(VueRouter)
 
-const constantRoutes = [
+export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -24,6 +24,12 @@ const constantRoutes = [
     ]
   }
 ]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = []
 
 const createRouter = () => new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
