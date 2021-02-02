@@ -38,8 +38,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.accessToken)
-        setToken(data.accessToken)
+        commit('SET_TOKEN', data.access_token)
+        setToken(data.access_token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -52,7 +52,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.accessToken).then(response => {
         const { data } = response
-
+        console.log('getInfo response = ' + data)
         if (!data) {
           reject('Verification failed, please Login again.')
         }
