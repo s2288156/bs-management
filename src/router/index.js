@@ -91,22 +91,22 @@ export const constantRoutes = [
   },
 
   {
-    path: '/test',
+    path: '/sys',
     component: Layout,
-    redirect: '/test/foo',
-    name: 'Test',
-    meta: { title: 'Test', icon: 'example' },
+    redirect: '/sys/user',
+    name: '系统管理',
+    meta: { title: '系统管理', icon: 'example' },
     children: [
       {
-        path: 'foo',
-        name: 'Foo',
-        component: () => import('@/views/test/foo/index'),
-        meta: { title: 'Foo', icon: 'form' }
+        path: 'user',
+        name: '用户列表',
+        component: () => import('@/views/sys/user/index'),
+        meta: { title: '用户列表', icon: 'account' }
       },
       {
         path: 'bar',
         name: 'Bar',
-        component: () => import('@/views/test/bar/index'),
+        component: () => import('@/views/sys/bar/index'),
         meta: { title: 'Bar', icon: 'form' }
       }
     ]
