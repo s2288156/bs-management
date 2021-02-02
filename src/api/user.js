@@ -22,3 +22,10 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function getList(data) {
+  return request({
+    url: '/admin/list',
+    data
+  })
+}
