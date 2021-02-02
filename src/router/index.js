@@ -88,6 +88,28 @@ export const constantRoutes = [
         meta: { title: 'Form', icon: 'form' }
       }
     ]
+  },
+
+  {
+    path: '/test',
+    component: Layout,
+    redirect: '/test/foo',
+    name: 'Test',
+    meta: { title: 'Test', icon: 'example' },
+    children: [
+      {
+        path: 'foo',
+        name: 'Foo',
+        component: () => import('@/views/test/foo/index'),
+        meta: { title: 'Foo', icon: 'form' }
+      },
+      {
+        path: 'bar',
+        name: 'Bar',
+        component: () => import('@/views/test/bar/index'),
+        meta: { title: 'Bar', icon: 'form' }
+      }
+    ]
   }
 ]
 
