@@ -16,6 +16,29 @@ npm run serve
 npm run build
 ```
 
+```
+# nginx config
+
+server {
+    listen       8000;
+    server_name  localhost 192.168.30.61;
+
+    root C:/Users/s2288/WebstormProjects/bs-management/dist;
+
+    location / {
+        # proxy_pass http://localhost:8200;
+        try_files $uri $uri/ @router;
+        index  index.html index.htm;
+    }
+
+    location @router {
+        rewrite ^.*$ /index.html last;
+    }
+
+}
+
+```
+
 ### Lints and fixes files
 ```
 npm run lint
