@@ -4,6 +4,17 @@
 ```
 npm install
 npm install --registry=https://registry.npm.taobao.org
+
+# check package update version 
+npm outdated
+
+npm install -g npm-check-updates
+
+# 检查可更新模块
+ncu
+
+# 更新
+ncu -u
 ```
 
 ### Compiles and hot-reloads for development
