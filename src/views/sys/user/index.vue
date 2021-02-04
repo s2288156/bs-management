@@ -1,5 +1,11 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <el-button class="filter-item">
+        Add
+      </el-button>
+    </div>
+
     <el-table
       :key="tableKey"
       v-loading="listLoading"
