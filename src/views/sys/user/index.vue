@@ -23,6 +23,13 @@
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="Actions" width="200">
+        <template v-slot="{row}">
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            Edit
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="fetchData" />
@@ -68,6 +75,9 @@ export default {
         this.total = response.data.total
         this.listLoading = false
       })
+    },
+    handleUpdate(row) {
+      console.log('handle update')
     }
   }
 }
