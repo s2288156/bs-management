@@ -23,9 +23,9 @@ export function logout() {
   })
 }
 
-export function getList(data) {
+export function getList(query) {
   return request({
     url: '/admin/list',
-    data
+    params: query
   })
 }
