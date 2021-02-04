@@ -29,3 +29,11 @@ export function getList(query) {
     params: query
   })
 }
+
+export function update(data) {
+  return request({
+    url: '/admin/update',
+    method: 'post',
+    data
+  })
+}

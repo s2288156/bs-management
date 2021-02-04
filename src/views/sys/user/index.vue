@@ -60,12 +60,20 @@
           </el-radio-group>
         </el-form-item>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          Cancel
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+          Confirm
+        </el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/user'
+import { getList, update } from '@/api/user'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -134,9 +142,24 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          console.log('valid')
+          const tempData = Object.assign({}, this.temp)
+          update(tempData).then(() => {
+            const index = this.list.findIndex(v => v.id === this.temp.id)
+            this.list.splice(index, 1, this.temp)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: 'Success',
+              message: 'Update Successfully',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
       })
+    },
+    createData() {
+      this.dialogFormVisible = false
+      console.log('createData')
     }
   }
 }
