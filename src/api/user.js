@@ -37,3 +37,11 @@ export function update(data) {
     data
   })
 }
+
+export function addUser(data) {
+  return request({
+    url: '/admin/add',
+    method: 'post',
+    data
+  })
+}

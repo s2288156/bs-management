@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button class="filter-item">
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAddUser">
         Add
       </el-button>
     </div>
@@ -49,16 +49,19 @@
         <el-form-item label="Username" prop="username">
           <el-input v-model="temp.username" />
         </el-form-item>
+        <el-form-item v-show="dialogStatus==='create'" label="Password" prop="password">
+          <el-input v-model="temp.password" />
+        </el-form-item>
         <el-form-item label="Name" prop="name">
           <el-input v-model="temp.name" />
         </el-form-item>
-        <el-form-item label="Gender">
+        <el-form-item v-show="dialogStatus==='update'" label="Gender">
           <el-radio-group v-model="temp.gender">
             <el-radio label="MALE" />
             <el-radio label="FEMALE" />
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="Status">
+        <el-form-item v-show="dialogStatus==='update'" label="Status">
           <el-radio-group v-model="temp.status">
             <el-radio label="ACTIVE" />
             <el-radio label="DELETED" />
@@ -70,7 +73,7 @@
         <el-button @click="dialogFormVisible = false">
           Cancel
         </el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+        <el-button type="primary" @click="dialogStatus==='create'?addUser():updateData()">
           Confirm
         </el-button>
       </div>
@@ -79,7 +82,7 @@
 </template>
 
 <script>
-import { getList, update } from '@/api/user'
+import { getList, update, addUser } from '@/api/user'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -90,7 +93,7 @@ export default {
       const statusMap = {
         DELETED: 'danger',
         ACTIVE: 'success',
-        FROZEN: 'warning'
+        FROZEN: ''
       }
       return statusMap[status]
     }
@@ -112,7 +115,8 @@ export default {
         gender: undefined,
         status: undefined,
         username: undefined,
-        createTime: undefined
+        createTime: undefined,
+        password: undefined
       },
       dialogStatus: '', // dialog状态
       dialogFormVisible: false, // dialog默认不显示
@@ -121,7 +125,7 @@ export default {
         create: '新增'
       },
       rules: {
-        id: [{ required: true, message: 'id is required', trigger: 'change' }]
+        username: [{ required: true, message: 'username is required', trigger: 'change' }]
       }
     }
   },
@@ -163,9 +167,40 @@ export default {
         }
       })
     },
-    createData() {
-      this.dialogFormVisible = false
-      console.log('createData')
+    resetTemp() {
+      this.temp = {
+        id: undefined,
+        name: '',
+        gender: undefined,
+        status: undefined,
+        username: '',
+        createTime: undefined,
+        password: ''
+      }
+    },
+    handleAddUser() {
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.nextTick()(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    addUser() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          addUser(this.temp).then(response => {
+            this.temp = Object.assign({}, response.data)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: 'Success',
+              message: 'Created Successfully',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
     }
   }
 }
