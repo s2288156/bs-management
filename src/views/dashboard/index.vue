@@ -2,6 +2,9 @@
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
     <div class="dashboard-text">roles: <span v-for="role in roles" :key="role">{{ role }}  </span></div>
+    <div class="block">
+      <el-image :src="src" />
+    </div>
   </div>
 </template>
 
@@ -15,6 +18,11 @@ export default {
       'name',
       'roles'
     ])
+  },
+  data() {
+    return {
+      src: 'https://wcy-img.oss-cn-beijing.aliyuncs.com/images/framework.svg'
+    }
   }
 }
 </script>
@@ -24,6 +32,7 @@ export default {
   &-container {
     margin: 30px;
   }
+
   &-text {
     font-size: 30px;
     line-height: 46px;
