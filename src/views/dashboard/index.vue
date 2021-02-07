@@ -13,17 +13,18 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      src: 'https://wcy-img.oss-cn-beijing.aliyuncs.com/images/framework.svg'
+    }
+  },
   computed: {
     ...mapGetters([
       'name',
       'roles'
     ])
-  },
-  data() {
-    return {
-      src: 'https://wcy-img.oss-cn-beijing.aliyuncs.com/images/framework.svg'
-    }
   }
+
 }
 </script>
 
