@@ -94,6 +94,7 @@
 
 <script>
 import { addUser, getList, update } from '@/api/user'
+import { currentAll } from '@/api/role'
 import Pagination from '@/components/Pagination'
 import ElDragSelect from '@/components/DragSelect'
 
@@ -139,8 +140,8 @@ export default {
       rules: {
         username: [{ required: true, message: 'username is required', trigger: 'change' }]
       },
-      roleNames: ['AAA', 'BBB'],
-      roles: [{ id: '', name: '' }],
+      roleNames: [''],
+      roles: [{ id: '', name: '', description: '' }],
       dialogAssignRoleVisible: false
     }
   },
@@ -218,8 +219,16 @@ export default {
         }
       })
     },
-    handleAssignRole(uid) {
-      this.dialogAssignRoleVisible = true
+    handleAssignRole() {
+      currentAll().then(response => {
+        this.roles = Object.assign({}, response.data)
+        const rNames = ['']
+        this.roles.forEach(function(value) {
+          rNames.push(value.name)
+        })
+        this.roleNames = rNames
+        this.dialogAssignRoleVisible = true
+      })
     }
   }
 }
