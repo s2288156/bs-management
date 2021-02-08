@@ -35,8 +35,11 @@
       </el-table-column>
       <el-table-column align="center" label="Actions" width="200">
         <template v-slot="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button type="primary" size="mini" @click="handleUpdateAdmin(row)">
             Edit
+          </el-button>
+          <el-button type="success" size="mini" @click="handleAssignRole(row)">
+            AssignRole
           </el-button>
         </template>
       </el-table-column>
@@ -81,16 +84,22 @@
         </el-button>
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="dialogAssignRoleVisible">
+      <el-drag-select v-model="roleNames" style="width: 500px;" multiple placeholder="请选择">
+        <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.name" />
+      </el-drag-select>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getList, update, addUser } from '@/api/user'
+import { addUser, getList, update } from '@/api/user'
 import Pagination from '@/components/Pagination'
+import ElDragSelect from '@/components/DragSelect'
 
 export default {
   name: 'UserList',
-  components: { Pagination },
+  components: { Pagination, ElDragSelect },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -129,7 +138,10 @@ export default {
       },
       rules: {
         username: [{ required: true, message: 'username is required', trigger: 'change' }]
-      }
+      },
+      roleNames: ['AAA', 'BBB'],
+      roles: [{ id: '', name: '' }],
+      dialogAssignRoleVisible: false
     }
   },
   created() {
@@ -144,7 +156,7 @@ export default {
         this.listLoading = false
       })
     },
-    handleUpdate(row) {
+    handleUpdateAdmin(row) {
       this.temp = Object.assign({}, row)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
@@ -205,6 +217,9 @@ export default {
           })
         }
       })
+    },
+    handleAssignRole(uid) {
+      this.dialogAssignRoleVisible = true
     }
   }
 }

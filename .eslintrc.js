@@ -22,6 +22,7 @@ module.exports = {
       }
     }],
     'vue/v-slot-style': 'off',
+    'vue/no-mutating-props': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
     'vue/name-property-casing': ['error', 'PascalCase'],
