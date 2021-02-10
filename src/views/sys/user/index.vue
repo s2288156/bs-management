@@ -221,12 +221,11 @@ export default {
     },
     handleAssignRole() {
       currentAll().then(response => {
-        this.roles = Object.assign({}, response.data)
-        const rNames = ['']
-        this.roles.forEach(function(value) {
-          rNames.push(value.name)
+        this.roles = response.data
+        this.roleNames = this.roles.map(function(value) {
+          return value.description
         })
-        this.roleNames = rNames
+        console.log(this.roleNames.toString())
         this.dialogAssignRoleVisible = true
       })
     }
