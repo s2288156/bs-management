@@ -1,10 +1,22 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-refresh" @click="fetchData">
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="success"
+        icon="el-icon-refresh"
+        @click="fetchData"
+      >
         {{ titleMap.reload }}
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAddUser">
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="primary"
+        icon="el-icon-edit"
+        @click="handleAddUser"
+      >
         {{ titleMap.addUser }}
       </el-button>
     </div>
@@ -45,7 +57,13 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="fetchData" />
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="fetchData"
+    />
 
     <el-dialog :title="dialogTitleMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px">
@@ -84,17 +102,31 @@
         </el-button>
       </div>
     </el-dialog>
+
     <el-dialog :title="titleMap.assignRole" :visible.sync="dialogAssignRoleVisible">
-      <el-drag-select v-model="roleNames" style="width: 500px;" multiple placeholder="请选择">
-        <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.name" />
+      <el-drag-select v-model="assignRoleData.roleNames" style="width: 500px;" multiple placeholder="请选择">
+        <el-option
+          v-for="role in assignRoleData.roles"
+          :key="role.id"
+          :label="role.description"
+          :value="role.description"
+        />
       </el-drag-select>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogAssignRoleVisible= false">
+          {{ titleMap.cancel }}
+        </el-button>
+        <el-button type="primary" @click="assignRole">
+          {{ titleMap.confirm }}
+        </el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { addUser, getList, update } from '@/api/user'
-import { currentAll } from '@/api/role'
+import { assign, listFor, listAll } from '@/api/role'
 import Pagination from '@/components/Pagination'
 import ElDragSelect from '@/components/DragSelect'
 
@@ -143,14 +175,19 @@ export default {
         confirm: '确认',
         cancel: '取消',
         addUser: '新增用户',
-        reload: '刷新'
+        reload: '刷新',
+        action: '操作'
       },
       rules: {
         username: [{ required: true, message: 'username is required', trigger: 'change' }]
       },
-      roleNames: [''],
-      roles: [{ id: '', name: '', description: '' }],
-      dialogAssignRoleVisible: false
+      dialogAssignRoleVisible: false,
+      assignRoleData: {
+        uid: '',
+        roleNames: [''],
+        roleIdMap: new Map(),
+        roles: [{ id: '', name: '', description: '' }]
+      }
     }
   },
   created() {
@@ -227,13 +264,40 @@ export default {
         }
       })
     },
-    handleAssignRole() {
-      currentAll().then(response => {
-        this.roles = response.data
-        this.roleNames = this.roles.map(function(value) {
+    handleAssignRole(row) {
+      listFor(row.id).then(response => {
+        this.assignRoleData.roleNames = response.data.map(function(value) {
           return value.description
         })
+        this.assignRoleData.uid = row.id
+      })
+      listAll().then(response => {
+        this.assignRoleData.roles = response.data
+        const map = new Map()
+        this.assignRoleData.roles.forEach(function(value) {
+          map.set(value.description, value.id)
+        })
+        this.assignRoleData.roleIdMap = map
         this.dialogAssignRoleVisible = true
+      })
+    },
+    assignRole() {
+      const param = {
+        uid: this.assignRoleData.uid,
+        roleIds: []
+      }
+      const map = this.assignRoleData.roleIdMap
+      this.assignRoleData.roleNames.forEach(function(value) {
+        param.roleIds.push(map.get(value))
+      })
+      assign(param).then(() => {
+        this.dialogAssignRoleVisible = false
+        this.$notify({
+          title: 'Success',
+          message: '角色分配成功',
+          type: 'success',
+          duration: 2000
+        })
       })
     }
   }
