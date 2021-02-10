@@ -2,10 +2,10 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-refresh" @click="fetchData">
-        Search
+        {{ titleMap.reload }}
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAddUser">
-        Add
+        {{ titleMap.addUser }}
       </el-button>
     </div>
 
@@ -36,10 +36,10 @@
       <el-table-column align="center" label="Actions" width="200">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" @click="handleUpdateAdmin(row)">
-            Edit
+            {{ titleMap.edit }}
           </el-button>
           <el-button type="success" size="mini" @click="handleAssignRole(row)">
-            AssignRole
+            {{ titleMap.assignRole }}
           </el-button>
         </template>
       </el-table-column>
@@ -77,14 +77,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
-          Cancel
+          {{ titleMap.cancel }}
         </el-button>
         <el-button type="primary" @click="dialogStatus==='create'?addUser():updateData()">
-          Confirm
+          {{ titleMap.confirm }}
         </el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogAssignRoleVisible">
+    <el-dialog :title="titleMap.assignRole" :visible.sync="dialogAssignRoleVisible">
       <el-drag-select v-model="roleNames" style="width: 500px;" multiple placeholder="请选择">
         <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.name" />
       </el-drag-select>
@@ -136,6 +136,14 @@ export default {
       dialogTitleMap: {
         update: '编辑',
         create: '新增'
+      },
+      titleMap: {
+        edit: '编辑',
+        assignRole: '分配角色',
+        confirm: '确认',
+        cancel: '取消',
+        addUser: '新增用户',
+        reload: '刷新'
       },
       rules: {
         username: [{ required: true, message: 'username is required', trigger: 'change' }]
@@ -225,7 +233,6 @@ export default {
         this.roleNames = this.roles.map(function(value) {
           return value.description
         })
-        console.log(this.roleNames.toString())
         this.dialogAssignRoleVisible = true
       })
     }
