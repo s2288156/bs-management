@@ -108,8 +108,8 @@
         <el-option
           v-for="role in assignRoleData.roles"
           :key="role.id"
-          :label="role.description"
-          :value="role.description"
+          :label="role.name"
+          :value="role.name"
         />
       </el-drag-select>
       <div slot="footer" class="dialog-footer">
@@ -171,7 +171,7 @@ export default {
       },
       titleMap: {
         edit: '编辑',
-        assignRole: '分配角色',
+        assignUser: '分配角色',
         confirm: '确认',
         cancel: '取消',
         addUser: '新增用户',
@@ -267,7 +267,7 @@ export default {
     handleAssignRole(row) {
       listFor(row.id).then(response => {
         this.assignRoleData.roleNames = response.data.map(function(value) {
-          return value.description
+          return value.name
         })
         this.assignRoleData.uid = row.id
       })
