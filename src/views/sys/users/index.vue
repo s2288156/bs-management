@@ -31,21 +31,21 @@
       highlight-current-row
     >
       <el-table-column type="index" :index="1" align="center" label="No." width="95" />
-      <el-table-column prop="username" label="Username" align="center" />
-      <el-table-column prop="name" label="Name" align="center" />
-      <el-table-column prop="gender" label="Gender" width="110" align="center" />
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column prop="username" label="用户名" align="center" />
+      <el-table-column prop="name" label="姓名" align="center" />
+      <el-table-column prop="gender" label="性别" width="110" align="center" />
+      <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template v-slot="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Register Time" width="250">
+      <el-table-column align="center" prop="created_at" label="注册时间" width="250">
         <template v-slot="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Actions" width="200">
+      <el-table-column align="center" label="操作" width="200">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" @click="handleUpdateAdmin(row)">
             {{ titleMap.edit }}

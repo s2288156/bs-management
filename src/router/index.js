@@ -56,58 +56,23 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
     path: '/sys',
     component: Layout,
-    redirect: '/sys/user',
+    redirect: '/sys/users',
     name: '系统管理',
     meta: { title: '系统管理', icon: 'example' },
     children: [
       {
-        path: 'user',
-        name: '用户列表',
-        component: () => import('@/views/sys/user/index'),
+        path: 'users',
+        name: 'Users',
+        component: () => import('@/views/sys/users/index'),
         meta: { title: '用户列表', icon: 'account' }
       },
       {
-        path: 'bar',
-        name: 'Bar',
-        component: () => import('@/views/sys/bar/index'),
-        meta: { title: 'Bar', icon: 'form' }
+        path: 'roles',
+        name: 'Roles',
+        component: () => import('@/views/sys/roles/index'),
+        meta: { title: '角色列表', icon: 'form' }
       }
     ]
   }
@@ -115,7 +80,7 @@ export const constantRoutes = [
 
 /**
  * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ * the routes that need to be dynamically loaded based on users roles
  */
 export const asyncRoutes = [
   {
