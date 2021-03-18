@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { listAll } from '@/api/role'
 
 export default {
   name: 'RoleList',
@@ -87,7 +88,10 @@ export default {
   methods: {
     fetchData() {
       console.log('fetch data')
-      this.listLoading = false
+      listAll().then(response => {
+        this.list = response.data
+        this.listLoading = false
+      })
     },
     handleAddRole() {
       alert('add role')
